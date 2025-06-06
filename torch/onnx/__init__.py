@@ -359,6 +359,10 @@ def export(
     .. versionchanged:: 2.7
         *optimize* is now True by default.
     """
+    # Force conversion via dynamo if dynamo not explicitly disabled and opset requires it
+    if dynamo == None and opset_version > _constants.ONNX_TORCHSCRIPT_EXPORTER_MAX_OPSET:
+        dynamo = True
+
     if dynamo is True or isinstance(model, torch.export.ExportedProgram):
         from torch.onnx._internal.exporter import _compat
 
